@@ -1,40 +1,33 @@
 import { View, Text ,Button, StyleSheet} from 'react-native';
-import React, { useContext } from 'react';
-import ThemeContext from '../context/ThemeContext';
-import LangContext from '../context/LangContext';
+import React, { useEffect } from 'react';
+import Form from '../components/Form';
+import List from '../components/List';
+import { useUsers } from '../context/UserContext';
 
-const Home = ({navigation}) => {
+const Home = () => {
+  const {loadData} = useUsers();
 
-    const {theme, toggleTheme} = useContext(ThemeContext);
-    const {lang, setLang} = useContext(LangContext);
-    
+  useEffect(() => {
+    loadData();
+  }, [])
+
 
   return (
-    <View style={{flex: 1, justifyContent:'center', alignItems:'center'}}>
-      <Text style={styles.text}>Acitve Theme: {theme} </Text>
-      <Text style={styles.text}>Acitve Language: {lang} </Text>
-      <Button title= "Toggle Theme" onPress={toggleTheme} />
-      <Button title= "Go to Settings" onPress= {() => navigation.navigate('Settings')}/>
-
-      <Text style={{marginTop: 14}}>Change Language</Text>
-      <View style={styles.buttons}>
-        <Button title="tr-TR" onPress={() => setLang("tr-TR")}/>
-        <Button title="en-US" onPress={() => setLang("en-US")}/>
-      </View>
-
+    <View style={styles.container}>
+      <Form />
+      <List />
     </View>
   );
+
 };
 
 const styles = StyleSheet.create({ 
+  container: {
+    flex:1,
+  },
   text: {
-    fontSize:18,
+    fontSize:20,
   },
-  buttons:{
-    flexDirection:"row",
-
-  },
-
 });
 
 export default Home;
